@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/home.js" defer></script>
+    <title>home</title>
+
+</head>
+<body style="background-color: white;">
+
+
+
+    <button id="dn" onclick="dayNight()" style="margin-bottom: 100px;">어둡게</button>
+    <% if (user.idName) { %>
+        <div style="float: right; display:inline;"><%= user.idName %>님 안녕하세요</div><br>
+        <button onclick="location.href=`/logout`">로그아웃</button>
+        <button onclick="location.href=`/write`">글쓰기</button>
+
+
+    <% } else { %>
+        <br><button onclick="location.href=`/login`">로그인</button>
+        <button onclick="location.href=`/register`">회원가입</button>
+    <% } %>
+    <button onclick="location.href=`/written`">글읽기</button>
+
+</body>
+</html>
