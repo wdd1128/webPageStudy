@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/write.js" defer></script>
+    <script src="../js/home.js" defer></script>
     <title>write</title>
 </head>
 <body>
@@ -13,10 +14,22 @@
         <div style="float: right; display:inline;"><%= user.idName %>님 안녕하세요</div><br>
 
     <% } %> -->
+    <button id="dn" onclick="dayNight()" style="margin-bottom: 100px;">어둡게</button><br>
+
     <h1><%=user.idName %></h1>
     <textarea id="text" cols="60px" rows="10px"></textarea><br>
     <button onclick="wr(`<%=user.idName %>`)">쓰기</button>
-    <button onclick="location.href=`/`">홈으로</button>
-
+    <button onclick="move('/')">홈으로</button>
+    <script>
+        `<% if(user.background) {%>`
+        document.querySelector("body").style.backgroundColor=`<%=user.background%>`;
+        `<%} else {%>`
+        document.querySelector("body").style.backgroundColor="white";
+        `<%}%>`
+        if(document.querySelector("body").style.backgroundColor!=="white"){
+            document.querySelector("body").style.color="white";
+            document.querySelector("#dn").innerText="밝게"
+        }
+    </script>
 </body>
 </html>

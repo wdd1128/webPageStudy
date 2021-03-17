@@ -6,7 +6,7 @@ const register = document.querySelector("#registerBt");
 
 register.addEventListener("click",()=>{
     
-    const res = {
+    const req = {
         id:id.value,
         pw:pw.value,
         confirmPw:confirmPw.value,
@@ -17,7 +17,7 @@ register.addEventListener("click",()=>{
         headers:{
             "Content-Type":"application/json"
         },
-        body:JSON.stringify(res),
+        body:JSON.stringify(req),
     })
     .then(res=>res.json())
     .then(res=>{

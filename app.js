@@ -1,13 +1,27 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        
+      cb(null, Date.now() + file.originalname);
+    }
+  })
+   
+const upload = multer({ storage: storage })
 const fileStore = require("session-file-store")(session);
 const ejs = require("ejs");
 
 const app = express();
 
 const fs = require("fs").promises;
-const { Session } = require("inspector");
+const { readFile } = require("fs");
+const { send } = require("process");
+
 app.set('view engine','ejs');
 app.set('views','./views');
 app.use(express.static(`${__dirname}`));
@@ -20,22 +34,29 @@ app.use(session({
     store: new fileStore(),
   }))
 
-app.get("/",(req,res)=>{
+app.get("/",async (req,res)=>{
 
-    user = req.session;
-    console.log(user)
-    console.log(user.idName)
 
-    res.render(`home`,user);
+    await fs
+    .readdir("./uploads",(err,file)=>{file})
+    .then(file=>{
+        user = req.session;
+        user.file=file;
+
+        res.render(`home`,user);
+        })
+
 })
 
 app.get("/login",(req,res)=>{
-    res.render(`login`);
+    user = req.session;
+    res.render(`login`,user);
 
 })
 
 app.get("/register",(req,res)=>{
-    res.render(`register`);
+    user = req.session;
+    res.render(`register`,user);
 
 })
 
@@ -46,9 +67,17 @@ app.get("/logout",(req,res)=>{
 })
 
 app.get("/write",(req,res)=>{
+
     user = req.session;
-    console.log(user);
+
     res.render(`write`,user);
+})
+
+app.get("/upload",(req,res)=>{
+
+    user = req.session;
+
+    res.render(`upload`,user);
 })
 
 app.get("/written",(req,res)=>{
@@ -59,9 +88,8 @@ app.get("/written",(req,res)=>{
         written={
             id:temp.id,
             text:temp.text,
+            background:req.session.background,
         }
-        console.log(temp);
-        console.log(written);
 
         res.render(`written`,written);
 
@@ -80,6 +108,7 @@ app.post("/login",(req,res)=>{
             if(user.pw[idx]===pw){
                 
                 req.session.idName=id;
+                req.session.background=req.body.background;
 
                 return res.json({success:true})
             }
@@ -90,6 +119,10 @@ app.post("/login",(req,res)=>{
         }
     })
 })
+app.post("/background",(req,res)=>{
+    req.session.background = req.body.background;
+    return res.json({});
+})
 
 
 app.post("/register", (req,res)=>{
@@ -99,7 +132,6 @@ app.post("/register", (req,res)=>{
         const pw = req.body.pw;
         const confirmPw = req.body.confirmPw;
 
-        console.log(user.id.includes(id))
         if(pw !== confirmPw){
             return res.json({success:"pwfalse"})
         }
@@ -120,8 +152,8 @@ app.post("/write", (req,res)=>{
     .then(async data=>{
         const id = req.body.id;
         const text = req.body.text;
-        console.log(id)
-        console.log(text)
+        req.session.background=req.body.background;
+
         const written = JSON.parse(data);
 
         written.id.push(id);
@@ -130,6 +162,23 @@ app.post("/write", (req,res)=>{
 
         return res.json({});
     })
+})
+
+app.post("/upload",upload.single('userFile'),async(req,res)=>{
+
+    res.redirect("./");
+
+
+//    var arr=[1];
+//     fs.readdir("./uploads/",(err,fileList)=>{
+
+//         console.log(fileList)
+
+//     }).then(()=>
+//     {
+//         res.send(arr);
+//     })
+
 })
 
 

@@ -4,13 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/home.js" defer></script>
     <title>written</title>
 </head>
 <body>
-    <% for(var i=0; i < written.id.length; i++) { %>
-        id: <%= written.id[i] %><br><br>
-        내용:<br> <%= written.text[i] %><br><br>
+    
+    <button id="dn" onclick="dayNight()" style="margin-bottom: 100px;">어둡게</button><br>
 
+    <% for(var i=0; i < written.id.length; i++) { %>
+        id: <%= written.id[i] %><br>
+        <textarea id="text" cols="60px" rows="10px" readonly><%= written.text[i] %></textarea>
+        <br><br>
     <% } %>
+    <button onclick="move('/')">홈으로</button>
+
+    <script>
+
+`<% if(written.background) {%>`
+        document.querySelector("body").style.backgroundColor=`<%=written.background%>`;
+        `<%} else {%>`
+        document.querySelector("body").style.backgroundColor="white";
+        `<%}%>`
+
+        if(document.querySelector("body").style.backgroundColor!=="white"){
+            document.querySelector("body").style.color="white";
+            document.querySelector("#dn").innerText="밝게"
+        }
+    </script>
 </body>
 </html>

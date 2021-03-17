@@ -1,6 +1,5 @@
 function dayNight(){
     const color = document.querySelector("body").style.backgroundColor;
-    console.log(color);
     if(color==="white"){
         document.querySelector("#dn").innerText="밝게"
         document.querySelector("body").style.backgroundColor="rgb(41, 41, 41)";
@@ -13,5 +12,23 @@ function dayNight(){
         document.querySelector("body").style.color="black";
 
     }
+}
 
+function move(address){
+
+    req={
+        background:document.querySelector("body").style.backgroundColor
+    }
+
+    fetch("/background",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(req),
+    })
+    .then(res=>res.json())
+    .then(res=>{
+        location.href=address;
+    })
 }

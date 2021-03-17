@@ -5,14 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/login.js" defer></script>
+    <script src="../js/home.js" defer></script>
     <title>login</title>
 </head>
 <body>
 
+    <button id="dn" onclick="dayNight()" style="margin-bottom: 100px;">어둡게</button><br>
+
     <input id = "id" type="text" placeholder="id"><br>
     <input id = "pw" type="password" placeholder="pw"><br>
     <button id = "logInBt">로그인</button>
-    <button onclick="location.href=`/`">홈으로</button>
+    <button onclick="move('/')">홈으로</button>
+
+    <script>
+        `<% if(user.background) {%>`
+        document.querySelector("body").style.backgroundColor=`<%=user.background%>`;
+        `<%} else {%>`
+        document.querySelector("body").style.backgroundColor="white";
+        `<%}%>`
+        if(document.querySelector("body").style.backgroundColor!=="white"){
+            document.querySelector("body").style.color="white";
+            document.querySelector("#dn").innerText="밝게"
+        }
+    </script>
 
 </body>
 </html>

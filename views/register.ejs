@@ -5,14 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/register.js" defer></script>
+    <script src="../js/home.js" defer></script>
     <title>register</title>
 </head>
 <body>
+    <button id="dn" onclick="dayNight()" style="margin-bottom: 100px;">어둡게</button><br>
+
     <input id="id" type="text"  placeholder="id"><br>
     <input id="pw" type="text" placeholder="pw"><br>
     <input id="confirmPw" type="text" placeholder="confirm pw"><br>
     <button id="registerBt">회원가입</button>
-    <button onclick="location.href=`/`">홈으로</button>
+    <button onclick="move('/')">홈으로</button>
 
+    <script>
+        `<% if(user.background) {%>`
+        document.querySelector("body").style.backgroundColor=`<%=user.background%>`;
+        `<%} else {%>`
+        document.querySelector("body").style.backgroundColor="white";
+        `<%}%>`
+        if(document.querySelector("body").style.backgroundColor!=="white"){
+            document.querySelector("body").style.color="white";
+            document.querySelector("#dn").innerText="밝게"
+        }
+    </script>
 </body>
 </html>

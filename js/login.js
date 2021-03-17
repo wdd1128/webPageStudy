@@ -6,6 +6,7 @@ login.addEventListener("click",()=>{
     req={
         id:id.value,
         pw:pw.value,
+        background:document.querySelector("body").style.backgroundColor,
     }
 
     fetch("/login",{

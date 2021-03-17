@@ -8,6 +8,7 @@ function wr(idName){
     const req = {
         id:idName,
         text:text,
+        background:document.querySelector("body").style.backgroundColor,
     };
 
     fetch("/write",{

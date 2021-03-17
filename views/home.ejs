@@ -10,20 +10,45 @@
 </head>
 <body style="background-color: white;">
 
-
-
+    
     <button id="dn" onclick="dayNight()" style="margin-bottom: 100px;">어둡게</button>
+
+
     <% if (user.idName) { %>
         <div style="float: right; display:inline;"><%= user.idName %>님 안녕하세요</div><br>
         <button onclick="location.href=`/logout`">로그아웃</button>
-        <button onclick="location.href=`/write`">글쓰기</button>
+        <button onclick="move('/write')">글쓰기</button>
+        <button onclick="move('/upload')">파일쓰기</button>
 
 
     <% } else { %>
-        <br><button onclick="location.href=`/login`">로그인</button>
-        <button onclick="location.href=`/register`">회원가입</button>
-    <% } %>
-    <button onclick="location.href=`/written`">글읽기</button>
 
+        <br><button onclick="move('/login')">로그인</button>
+        <button onclick="move('/register')">회원가입</button>
+
+    <% } %>
+    <button onclick="move('/written')">글읽기</button>
+
+    <br><img style="width:300px; " src="https://pelicana.co.kr/resources/images/menu/best_menu02_200824.jpg">
+
+    <% if (user.file) { %>
+        <% for(var i=0; i< user.file.length; i++) { %>
+            <br><img style="width:300px; " src="./uploads/<%=user.file[i]%>">
+        <% } %>
+    <% } %>
+
+    
+    <script>
+        `<% if(user.background) {%>`
+        document.querySelector("body").style.backgroundColor=`<%=user.background%>`;
+        `<%} else {%>`
+        document.querySelector("body").style.backgroundColor="white";
+        `<%}%>`
+
+        if(document.querySelector("body").style.backgroundColor!=="white"){
+            document.querySelector("body").style.color="white";
+            document.querySelector("#dn").innerText="밝게"
+        }
+    </script>
 </body>
 </html>
