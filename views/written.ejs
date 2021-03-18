@@ -10,18 +10,19 @@
 <body>
     
     <button id="dn" onclick="dayNight()" style="margin-bottom: 100px;">어둡게</button><br>
+    <button onclick="move('/')">홈으로</button><br>
 
     <% for(var i=0; i < written.id.length; i++) { %>
         id: <%= written.id[i] %><br>
-        <textarea id="text" cols="60px" rows="10px" readonly><%= written.text[i] %></textarea>
+        <textarea id="text" cols="60px" rows="5px" readonly><%= written.text[i] %></textarea>
         <br><br>
     <% } %>
     <button onclick="move('/')">홈으로</button>
 
     <script>
 
-`<% if(written.background) {%>`
-        document.querySelector("body").style.backgroundColor=`<%=written.background%>`;
+`<% if(user.background) {%>`
+        document.querySelector("body").style.backgroundColor=`<%=user.background%>`;
         `<%} else {%>`
         document.querySelector("body").style.backgroundColor="white";
         `<%}%>`

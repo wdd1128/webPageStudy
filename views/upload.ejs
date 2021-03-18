@@ -4,25 +4,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="../js/home.js"></script>
+    <title>upload</title>
 </head>
 <body>
+    <button id="dn" onclick="dayNight() " style="margin-bottom: 100px;">어둡게</button>
+
     <form action="upload" method='POST' enctype="multipart/form-data">
         <input type="file" name="userFile" accept="image/*" onchange="setThumbnail(event);">
+        <input type="hidden" class="background" name="background" value="white">
         <div id="image_container"></div> 
+        <input type="submit" onclick="document.querySelector('.background').value = document.querySelector('body').style.backgroundColor">
+    </form>
         
         <script> 
         function setThumbnail(event) {
             var reader = new FileReader(); 
             reader.onload = function(event) { 
-                var img = document.createElement("img"); img.setAttribute("src", event.target.result);
+                var img = document.createElement("img"); 
+                img.src= event.target.result;
+                console.log(document.querySelector("div#image_container").parentElement)
                 document.querySelector("div#image_container").appendChild(img); 
             }; 
-            reader.readAsDataURL(event.target.files[0]); 
+            reader.readAsDataURL(event.target.files[0]);
         } 
         </script>
 
-        <input type="submit">
-    </form>
+    <script>
+        `<% if(user.background) {%>`
+        document.querySelector("body").style.backgroundColor=`<%=user.background%>`;
+        `<%} else {%>`
+        document.querySelector("body").style.backgroundColor="white";
+        `<%}%>`
+        if(document.querySelector("body").style.backgroundColor!=="white"){
+            document.querySelector("body").style.color="white";
+            document.querySelector("#dn").innerText="밝게"
+        }
+    </script>
+
 </body>
 </html>

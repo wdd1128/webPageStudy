@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/home.js" defer></script>
+ 
     <title>home</title>
 
 </head>
@@ -15,10 +16,12 @@
 
 
     <% if (user.idName) { %>
-        <div style="float: right; display:inline;"><%= user.idName %>님 안녕하세요</div><br>
-        <button onclick="location.href=`/logout`">로그아웃</button>
+        <div style="float:right">
+            <div><%= user.idName %>님 안녕하세요</div>
+            <button style="float:right" onclick="location.href=`/logout`">로그아웃</button>
+        </div><br>
         <button onclick="move('/write')">글쓰기</button>
-        <button onclick="move('/upload')">파일쓰기</button>
+        <button onclick="move('/upload')">그림올리기</button>
 
 
     <% } else { %>
@@ -29,22 +32,33 @@
     <% } %>
     <button onclick="move('/written')">글읽기</button>
 
-    <br><img style="width:300px; " src="https://pelicana.co.kr/resources/images/menu/best_menu02_200824.jpg">
+    <!-- <br><img style="width:300px; " src="https://pelicana.co.kr/resources/images/menu/best_menu02_200824.jpg"> -->
 
-    <% if (user.file) { %>
-        <% for(var i=0; i< user.file.length; i++) { %>
-            <br><img style="width:300px; " src="./uploads/<%=user.file[i]%>">
+    <% if (files) { %>
+        <% for(var i=0; i< files.length; i++) { %>
+            <br><img style="width:300px; " src="./uploads/<%=files[i]%>">
         <% } %>
     <% } %>
 
     
+    <script>
+
+        window.onresize=function(){
+            if(window.innerWidth<300){
+                document.querySelectorAll("img").forEach(n=>{ n.style.width="100%";});
+            }
+            else{
+                document.querySelectorAll("img").forEach(n=>{ n.style.width="300px";});
+            }
+        }
+    </script>
+
     <script>
         `<% if(user.background) {%>`
         document.querySelector("body").style.backgroundColor=`<%=user.background%>`;
         `<%} else {%>`
         document.querySelector("body").style.backgroundColor="white";
         `<%}%>`
-
         if(document.querySelector("body").style.backgroundColor!=="white"){
             document.querySelector("body").style.color="white";
             document.querySelector("#dn").innerText="밝게"

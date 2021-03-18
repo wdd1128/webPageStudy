@@ -19,8 +19,7 @@ const ejs = require("ejs");
 const app = express();
 
 const fs = require("fs").promises;
-const { readFile } = require("fs");
-const { send } = require("process");
+const { count } = require("console");
 
 app.set('view engine','ejs');
 app.set('views','./views');
@@ -31,20 +30,19 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    store: new fileStore(),
+    //store: new fileStore(),
   }))
 
-app.get("/",async (req,res)=>{
+app.get("/", (req,res)=>{
 
-
-    await fs
+    fs
     .readdir("./uploads",(err,file)=>{file})
     .then(file=>{
         user = req.session;
-        user.file=file;
+        files = file;
 
-        res.render(`home`,user);
-        })
+        res.render(`home`,{user,files});
+    })
 
 })
 
@@ -84,14 +82,14 @@ app.get("/written",(req,res)=>{
 
     fs.readFile("./written.json")
     .then(data=>{
+        user = req.session;
         const temp = JSON.parse(data);
         written={
             id:temp.id,
             text:temp.text,
-            background:req.session.background,
         }
 
-        res.render(`written`,written);
+        res.render(`written`,{user,written});
 
     })
 })
@@ -164,11 +162,13 @@ app.post("/write", (req,res)=>{
     })
 })
 
-app.post("/upload",upload.single('userFile'),async(req,res)=>{
+app.post("/upload",upload.single('userFile'),async (req,res)=>{
 
-    res.redirect("./");
+    await (req.session.background = req.body.background);
 
-
+    
+    res.redirect("/");
+    
 //    var arr=[1];
 //     fs.readdir("./uploads/",(err,fileList)=>{
 
